@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { NextAuthOptions, User } from "next-auth";
-import { AdapterUser } from "next-auth/adapters";
+
+import { AdapterUser } from "../node_modules/next-auth/src/adapters"
 import GoogleProvider from "next-auth/providers/google";
 import jsonwebtoken from 'jsonwebtoken'
 import { JWT } from "next-auth/jwt";
@@ -8,19 +9,19 @@ import { JWT } from "next-auth/jwt";
 export const authOptions :NextAuthOptions={
     providers:[
         GoogleProvider({
-            clientId:,
-            clientSecret:,
+            clientId:process.env.GOOGLE_CLIENT_ID!,
+            clientSecret:process.env.GOOGLE_CLIENT_SECRET!,
         })
     ],
-    jwt:{
-        encode:({secret,token})=>{
+    // jwt:{
+    //     encode:({secret,token})=>{
 
-        },
-        decode:({secret,token})=>{
+    //     },
+    //     decode:({secret,token})=>{
 
-        },
+    //     },
 
-    },
+    // },
     theme:{
         colorScheme: 'light',
         logo: '/logo.png'
@@ -28,10 +29,17 @@ export const authOptions :NextAuthOptions={
     },
     callbacks:{
         async session({session}){
-            
+            return session;
         },
-        async signIn({user}){
+        async signIn({user}:{user:AdapterUser|User}){
+            try {
 
+                return true;
+            } catch (error:any) {
+                console.log(error);
+                return false;
+                
+            }
         }
     }
 
