@@ -34,7 +34,7 @@ const Navbar = () => {
                         </Link>
                     </>
                 ) : (
-                    <AuthProviders></AuthProviders>
+                    <AuthProviders/>
                 )
 
                 }
